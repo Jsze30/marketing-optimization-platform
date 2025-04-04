@@ -1,21 +1,23 @@
-// pages/index.js
 import Head from "next/head";
 import MetaInsights from "../../components/meta_insights";
 import ShopifyForecast from "../../components/shopify_forecast";
+import { Separator } from "@/components/ui/separator";
 
 export default function Home() {
   return (
-    <div>
+    <>
       <Head>
         <title>AI Marketing Dashboard</title>
       </Head>
+      <div className="min-h-screen bg-gray-50 px-6 py-10">
+        <div className="max-w-6xl mx-auto">
+          <h1 className="text-4xl font-bold mb-6">📊 AI-Powered Marketing Dashboard</h1>
 
-      <main style={{ padding: "2rem" }}>
-        <h1>📊 AI-Powered Marketing Optimization</h1>
-        <MetaInsights />
-        <hr style={{ margin: "3rem 0" }} />
-        <ShopifyForecast />
-      </main>
-    </div>
+          <MetaInsights />
+          <Separator className="my-10" />
+          <ShopifyForecast />
+        </div>
+      </div>
+    </>
   );
 }
