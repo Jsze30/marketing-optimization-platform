@@ -1,6 +1,8 @@
 import Head from "next/head";
 import MetaInsights from "../../components/meta_insights";
 import ShopifyForecast from "../../components/shopify_forecast";
+import BudgetForecast from "../../components/budget_forecast";
+
 import { Separator } from "@/components/ui/separator";
 
 export default function Home() {
@@ -16,6 +18,8 @@ export default function Home() {
           <MetaInsights />
           <Separator className="my-10" />
           <ShopifyForecast />
+          <Separator className="my-10" />
+          <BudgetForecast />
         </div>
       </div>
     </>
