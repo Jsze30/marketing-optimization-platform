@@ -3,6 +3,7 @@ import MetaInsights from "../../components/meta_insights";
 import ShopifyForecast from "../../components/shopify_forecast";
 import BudgetForecast from "../../components/budget_forecast";
 import ABTestSuggestions from "../../components/ab_test_suggestions";
+import ROASTracker from "../../components/roastracker";
 
 
 import { Separator } from "@/components/ui/separator";
@@ -23,6 +24,7 @@ export default function Home() {
           <Separator className="my-10" />
           <BudgetForecast />
           <ABTestSuggestions />
+          <ROASTracker />
         </div>
       </div>
     </>
