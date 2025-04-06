@@ -20,4 +20,8 @@ def get_budget_recommendation():
 def get_ab_test_suggestions():
     with open("../data/ab_test_suggestions.json", "r") as f:
         return json.load(f)
+    
+def get_campaign_roas():
+    df = pd.read_csv("../data/campaign_roas.csv")
+    return df.to_dict(orient="records")
 
