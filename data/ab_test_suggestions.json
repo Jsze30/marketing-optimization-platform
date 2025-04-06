@@ -1,0 +1,17 @@
+[
+  {
+    "campaign_name": "Holiday Promo",
+    "suggestions": [
+      "Try new ad creative or headline.",
+      "This is a high-cost underperforming ad. Consider pausing or testing new audience targeting."
+    ]
+  },
+  {
+    "campaign_name": "Retargeting Campaign",
+    "suggestions": [
+      "Try new ad creative or headline.",
+      "Test landing page or call-to-action.",
+      "This is a high-cost underperforming ad. Consider pausing or testing new audience targeting."
+    ]
+  }
+]
