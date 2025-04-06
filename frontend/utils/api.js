@@ -14,3 +14,9 @@ export const fetchShopifyForecast = () =>
 
 export const fetchShopifyRecommendations = () =>
   axios.get(`${API_BASE}/shopify/recommendations`).then(res => res.data);
+
+export const fetchBudgetForecast = () =>
+  axios.get(`${API_BASE}/meta/budget/forecast`).then(res => res.data);
+
+export const fetchBudgetRecommendation = () =>
+  axios.get(`${API_BASE}/meta/budget/recommendation`).then(res => res.data);
