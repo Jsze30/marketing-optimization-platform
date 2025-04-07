@@ -1,4 +1,3 @@
-````md
 # 📈 AI-Powered Marketing Optimization Platform
 
 This project is a proof-of-concept platform that uses ML and API integrations to optimize Meta Ads performance and analyze Shopify sales data.
@@ -79,4 +78,3 @@ npm run dev
 Visit `http://localhost:3000` to view the dashboard.
 
 ---
-````
