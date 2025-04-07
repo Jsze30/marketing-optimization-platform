@@ -51,7 +51,6 @@ The platform is structured with a clean separation between the ML engine, API ba
 git clone https://github.com/your-username/ad-optimizer-platform.git
 cd ad-optimizer-platform
 ```
-````
 
 ---
 
@@ -78,9 +77,4 @@ npm run dev
 ```
 
 Visit `http://localhost:3000` to view the dashboard.
-
----
-
-```
-
-```
+````
