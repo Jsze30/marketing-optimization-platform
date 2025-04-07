@@ -1,5 +1,6 @@
 from fastapi import APIRouter
 from services.meta_ads_service import get_meta_insights, get_meta_recommendations, get_budget_forecast, get_budget_recommendation, get_ab_test_suggestions, get_campaign_roas
+from services.alerts_service import send_email_alerts
 
 router = APIRouter()
 
@@ -26,5 +27,10 @@ def ab_test_suggestions():
 @router.get("/roas")
 def campaign_roas():
     return get_campaign_roas()
+from services.alerts_service import send_email_alerts
+
+@router.get("/send-email-alerts")
+def trigger_email_alert():
+    return send_email_alerts()
 
 
