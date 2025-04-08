@@ -29,6 +29,14 @@ The platform is structured with a clean separation between the ML engine, API ba
 
 ---
 
+## Architecture Diagram
+
+The following diagram illustrates the architecture of the Marketing Optimization Platform:
+
+![Architecture Diagram](./architecture_diagram.png)
+
+---
+
 ## 🛠️ Tech Stack Choices
 
 | Layer         | Tech                                                    | Why It Was Chosen                                                              |
@@ -76,5 +84,3 @@ npm run dev
 ```
 
 Visit `http://localhost:3000` to view the dashboard.
-
----
