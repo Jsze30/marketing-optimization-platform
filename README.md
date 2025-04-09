@@ -25,7 +25,7 @@ The platform is structured with a clean separation between the ML engine, API ba
 2. **ML Insights**: Python notebooks analyze data to cluster campaigns, forecast revenue, and generate recommendations.
 3. **API Layer**: FastAPI serves this data through structured endpoints like `/meta/insights` and `/shopify/forecast`.
 4. **Dashboard**: A Next.js frontend fetches this data and renders performance metrics, charts, and recommendations using Tailwind and shadcn/ui.
-5. **Alerts**: Email and Slack notification hooks are available for sudden performance shifts, handled via FastAPI utilities.
+5. **Alerts**: Email notification hooks are available for sudden performance shifts, handled via FastAPI utilities.
 
 ---
 
@@ -45,7 +45,7 @@ The following diagram illustrates the architecture of the Marketing Optimization
 | Backend       | FastAPI (Python)                                        | High-performance, modern Python API framework that pairs well with ML          |
 | ML Models     | scikit-learn (KMeans, LinearRegression)                 | Lightweight, interpretable models ideal for PoC insights                       |
 | Data Layer    | Pandas, CSV                                             | Quick iteration with structured tabular data                                   |
-| Notifications | smtplib, Slack Webhook API                              | Simple to integrate for real-time performance alerts                           |
+| Notifications | smtplib                                                 | Simple to integrate for real-time performance alerts                           |
 | Deployment    | Local (optional: Render/Vercel)                         | Proof-of-concept stage with local hosting and future cloud scalability options |
 
 ---
@@ -55,8 +55,8 @@ The following diagram illustrates the architecture of the Marketing Optimization
 ### 1. Clone the repo
 
 ```bash
-git clone https://github.com/your-username/ad-optimizer-platform.git
-cd ad-optimizer-platform
+git clone https://github.com/your-username/marketing-optimization-platform.git
+cd marketing-optimization-platform
 ```
 
 ---
