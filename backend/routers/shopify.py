@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from services.shopify_service import get_shopify_forecast, get_shopify_recommendations
+from backend.services.shopify_service import get_shopify_forecast, get_shopify_recommendations
 
 router = APIRouter()
 

@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import axios from "axios";
+import { API_BASE } from "../utils/api";
 
 export default function ROASTracker() {
   const [data, setData] = useState([]);
@@ -11,7 +12,7 @@ export default function ROASTracker() {
 
   useEffect(() => {
     setIsLoading(true);
-    axios.get("http://localhost:8000/api/meta/roas")
+    axios.get(`${API_BASE}/meta/roas`)
       .then(res => {
         setData(res.data);
         setIsLoading(false);

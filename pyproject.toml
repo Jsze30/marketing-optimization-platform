@@ -1,0 +1,12 @@
+[project]
+name = "uplift-api"
+version = "0.1.0"
+description = "API for the Uplift marketing optimization dashboard"
+requires-python = ">=3.12"
+dependencies = [
+  "fastapi==0.115.12",
+  "pandas==2.2.3",
+]
+
+[tool.vercel]
+entrypoint = "backend.main:app"

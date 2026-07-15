@@ -1,9 +1,11 @@
 import smtplib
 from email.mime.text import MIMEText
 
+from backend.services.data import DATA_DIR
+
 def send_email_alerts():
     try:
-        with open("../data/performance_alerts.txt", "r") as f:
+        with open(DATA_DIR / "performance_alerts.txt", "r") as f:
             alerts = f.read().strip()
 
         if not alerts:

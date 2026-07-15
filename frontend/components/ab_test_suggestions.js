@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import axios from "axios";
+import { API_BASE } from "../utils/api";
 
 export default function ABTestSuggestions() {
   const [suggestions, setSuggestions] = useState([]);
@@ -11,7 +12,7 @@ export default function ABTestSuggestions() {
 
   useEffect(() => {
     setIsLoading(true);
-    axios.get("http://localhost:8000/api/meta/ab-test/suggestions")
+    axios.get(`${API_BASE}/meta/ab-test/suggestions`)
       .then(res => {
         setSuggestions(res.data);
         setIsLoading(false);

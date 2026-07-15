@@ -1,7 +1,7 @@
 // utils/api.js
 import axios from "axios";
 
-const API_BASE = "http://localhost:8000/api";
+export const API_BASE = "/api";
 
 export const fetchMetaInsights = () =>
   axios.get(`${API_BASE}/meta/insights`).then(res => res.data);
