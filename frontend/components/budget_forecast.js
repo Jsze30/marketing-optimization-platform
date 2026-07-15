@@ -2,8 +2,8 @@
 import { useEffect, useState } from "react";
 import { fetchBudgetForecast, fetchBudgetRecommendation } from "../utils/api";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Sparkles } from "lucide-react";
 import {
   LineChart,
   Line,
@@ -27,10 +27,10 @@ export default function BudgetForecast() {
         setIsLoading(true);
         const forecastData = await fetchBudgetForecast();
         const recData = await fetchBudgetRecommendation();
-        
+
         setForecast(forecastData);
         setRecommendation(recData.recommendation);
-        
+
         // Find the optimal budget point (maximum efficiency)
         if (forecastData.length) {
           const maxEfficiency = forecastData.reduce((max, item) => {
@@ -45,13 +45,13 @@ export default function BudgetForecast() {
         setIsLoading(false);
       }
     };
-    
+
     fetchData();
   }, []);
 
   const formatCurrency = (value) => {
-    return new Intl.NumberFormat('en-US', { 
-      style: 'currency', 
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
       currency: 'USD',
       minimumFractionDigits: 0,
       maximumFractionDigits: 0
@@ -59,101 +59,107 @@ export default function BudgetForecast() {
   };
 
   return (
-    <Card className="shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden">
-      <CardHeader className="bg-gradient-to-r from-amber-500 to-orange-600 text-white">
-        <div className="flex items-center justify-between">
-          <CardTitle className="text-2xl font-bold flex items-center">
-            <span className="mr-2">🔮</span>Predictive Budget Allocation
-          </CardTitle>
-          <Badge variant="outline" className="bg-white/20 text-white border-white/30">
-            AI-Optimized
-          </Badge>
+    <Card className="group animate-fade-in-up overflow-hidden rounded-[1.5rem] border-zinc-200 bg-white transition-all duration-300 hover:shadow-xl">
+      <CardHeader className="border-b border-zinc-100 p-6">
+        <div className="flex items-start justify-between gap-4">
+          <div>
+            <div className="eyebrow text-emerald-500">Budget · AI-Optimized</div>
+            <CardTitle className="mt-2 text-2xl font-medium tracking-tightest text-zinc-900">
+              Predictive Budget Allocation
+            </CardTitle>
+            <CardDescription className="mt-1 font-light text-zinc-500">
+              Conversion prediction model based on budget allocation scenarios
+            </CardDescription>
+          </div>
+          <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-zinc-900 text-white">
+            <Sparkles className="h-5 w-5" />
+          </span>
         </div>
-        <CardDescription className="text-amber-100 mt-1">
-          Conversion prediction model based on budget allocation scenarios
-        </CardDescription>
       </CardHeader>
-      <CardContent className="pt-6">
+      <CardContent className="p-6">
         {isLoading ? (
           <div className="space-y-3">
-            <Skeleton className="h-[300px] w-full rounded-lg" />
-            <Skeleton className="h-4 w-3/4 mt-4" />
+            <Skeleton className="h-[300px] w-full rounded-2xl" />
+            <Skeleton className="h-4 w-3/4" />
             <Skeleton className="h-4 w-1/2" />
           </div>
         ) : (
           <>
-            <div className="rounded-md bg-white p-4 border border-amber-200 shadow-sm">
+            <div className="rounded-2xl border border-zinc-100 bg-zinc-50 p-4">
               <ResponsiveContainer width="100%" height={300}>
-                <LineChart 
+                <LineChart
                   data={forecast}
                   margin={{ top: 10, right: 10, left: 10, bottom: 10 }}
                 >
-                  <XAxis 
-                    dataKey="budget" 
+                  <XAxis
+                    dataKey="budget"
                     tickLine={false}
                     axisLine={false}
-                    tick={{ fontSize: 12 }}
+                    tick={{ fontSize: 12, fill: '#a1a1aa' }}
                     tickFormatter={formatCurrency}
-                    label={{ value: 'Ad Budget', position: 'insideBottom', offset: -5 }}
+                    label={{ value: 'Ad Budget', position: 'insideBottom', offset: -5, fill: '#a1a1aa', fontSize: 12 }}
                   />
-                  <YAxis 
-                    dataKey="predicted_conversions" 
+                  <YAxis
+                    dataKey="predicted_conversions"
                     tickLine={false}
                     axisLine={false}
-                    tick={{ fontSize: 12 }}
+                    tick={{ fontSize: 12, fill: '#a1a1aa' }}
                     domain={['auto', 'auto']}
-                    label={{ value: 'Predicted Conversions', angle: -90, position: 'insideLeft', offset: 10 }}
+                    label={{ value: 'Predicted Conversions', angle: -90, position: 'insideLeft', offset: 10, fill: '#a1a1aa', fontSize: 12 }}
                   />
-                  <Tooltip 
-                    formatter={(value, name) => name === "predicted_conversions" ? 
-                      [Math.round(value) + " conversions", "Predicted"] : 
-                      [formatCurrency(value), "Budget"]} 
-                    contentStyle={{ 
-                      borderRadius: '8px',
-                      border: '1px solid #e2e8f0',
-                      boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)'
+                  <Tooltip
+                    formatter={(value, name) => name === "predicted_conversions" ?
+                      [Math.round(value) + " conversions", "Predicted"] :
+                      [formatCurrency(value), "Budget"]}
+                    contentStyle={{
+                      borderRadius: '12px',
+                      border: '1px solid #e4e4e7',
+                      boxShadow: '0 8px 24px rgba(0, 0, 0, 0.08)',
+                      fontSize: '13px'
                     }}
                   />
-                  <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
+                  <CartesianGrid strokeDasharray="3 3" stroke="#e4e4e7" vertical={false} />
                   {optimalBudget && (
-                    <ReferenceLine 
-                      x={optimalBudget} 
-                      stroke="#f97316" 
+                    <ReferenceLine
+                      x={optimalBudget}
+                      stroke="#34D399"
                       strokeWidth={2}
                       strokeDasharray="5 5"
-                      label={{ value: 'Optimal Budget', position: 'top', fill: '#f97316' }}
+                      label={{ value: 'Optimal', position: 'top', fill: '#10b981', fontSize: 12 }}
                     />
                   )}
-                  <Line 
-                    type="monotone" 
-                    dataKey="predicted_conversions" 
-                    stroke="#f97316" 
+                  <Line
+                    type="monotone"
+                    dataKey="predicted_conversions"
+                    stroke="#18181b"
                     strokeWidth={3}
-                    dot={{ stroke: '#f97316', strokeWidth: 2, fill: 'white', r: 4 }}
-                    activeDot={{ r: 6, stroke: '#f97316', strokeWidth: 2, fill: '#f97316' }}
+                    dot={{ stroke: '#18181b', strokeWidth: 2, fill: '#ffffff', r: 4 }}
+                    activeDot={{ r: 6, stroke: '#10b981', strokeWidth: 2, fill: '#34D399' }}
                   />
                 </LineChart>
               </ResponsiveContainer>
             </div>
 
-            <div className="mt-6 bg-amber-50 p-4 rounded-lg border-l-4 border-amber-500">
-              <h3 className="text-lg font-medium mb-2 flex items-center text-amber-800">
-                <span className="mr-2">💡</span>
-                <span>AI Recommendation</span>
+            <div className="mt-6 rounded-xl border border-zinc-100 border-l-2 border-l-emerald-400 bg-zinc-50 p-5">
+              <h3 className="mb-2 flex items-center gap-2 text-sm font-medium text-zinc-900">
+                <Sparkles className="h-4 w-4 text-emerald-500" />
+                AI Recommendation
               </h3>
-              <p className="text-amber-900">{recommendation}</p>
+              <p className="text-sm font-light leading-relaxed text-zinc-600">{recommendation}</p>
               {optimalBudget && (
-                <div className="mt-3 flex items-center text-amber-800">
-                  <span className="font-bold mr-1">Optimal Budget:</span> 
-                  <span>{formatCurrency(optimalBudget)}</span>
+                <div className="mt-4 flex items-center justify-between rounded-lg bg-white px-4 py-3">
+                  <span className="eyebrow text-zinc-400">Optimal Budget</span>
+                  <span className="text-lg font-medium tracking-tightest text-emerald-600">
+                    {formatCurrency(optimalBudget)}
+                  </span>
                 </div>
               )}
             </div>
           </>
         )}
       </CardContent>
-      <CardFooter className="bg-amber-50 border-t border-amber-100 text-xs text-amber-700">
-        <p>Based on historical performance data and conversion trends</p>
+      <CardFooter className="border-t border-zinc-100 bg-zinc-50/60 px-6 py-4 text-xs font-light text-zinc-400">
+        Based on historical performance data and conversion trends
       </CardFooter>
     </Card>
   );

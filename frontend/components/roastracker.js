@@ -1,8 +1,8 @@
 'use client';
 import { useEffect, useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Wallet } from "lucide-react";
 import axios from "axios";
 import { API_BASE } from "../utils/api";
 
@@ -23,74 +23,76 @@ export default function ROASTracker() {
       });
   }, []);
 
-  // Function to determine badge color based on ROAS value
-  const getRoasBadgeVariant = (roas) => {
-    if (roas >= 4) return "success";
-    if (roas >= 2) return "warning";
-    return "destructive";
-  };
-
-  // Custom badge styles based on variant
-  const badgeStyles = {
-    success: "bg-emerald-100 text-emerald-800 border-emerald-200",
-    warning: "bg-amber-100 text-amber-800 border-amber-200",
-    destructive: "bg-rose-100 text-rose-800 border-rose-200"
+  // ROAS tier → monochrome + emerald treatment
+  const getRoasTier = (roas) => {
+    if (roas >= 4) return { label: 'Excellent', style: 'bg-emerald-400/15 text-emerald-600' };
+    if (roas >= 2) return { label: 'Good', style: 'bg-zinc-900/5 text-zinc-700' };
+    return { label: 'Poor', style: 'bg-zinc-900/5 text-zinc-400' };
   };
 
   return (
-    <Card className="shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden">
-      <CardHeader className="bg-gradient-to-r from-blue-600 to-indigo-700 text-white">
-        <div className="flex justify-between items-center">
-          <CardTitle className="text-2xl font-bold flex items-center">
-            <span className="mr-2">💰</span>Campaign ROAS Analysis
-          </CardTitle>
-          <Badge variant="outline" className="bg-white/20 text-white border-white/30">
-            Lifetime Value / Ad Spend
-          </Badge>
+    <Card className="animate-fade-in-up overflow-hidden rounded-[1.5rem] border-zinc-200 bg-white transition-all duration-300 hover:shadow-xl">
+      <CardHeader className="border-b border-zinc-100 p-6">
+        <div className="flex items-start justify-between gap-4">
+          <div>
+            <div className="eyebrow text-emerald-500">Return on Ad Spend</div>
+            <CardTitle className="mt-2 text-2xl font-medium tracking-tightest text-zinc-900">
+              Campaign ROAS Analysis
+            </CardTitle>
+            <CardDescription className="mt-1 font-light text-zinc-500">
+              Performance analysis of ad campaigns based on customer lifetime value
+            </CardDescription>
+          </div>
+          <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-zinc-900 text-white">
+            <Wallet className="h-5 w-5" />
+          </span>
         </div>
-        <CardDescription className="text-blue-100 mt-1">
-          Performance analysis of ad campaigns based on customer lifetime value
-        </CardDescription>
       </CardHeader>
       <CardContent className="p-0">
         {isLoading ? (
-          <div className="p-6 space-y-4">
-            <Skeleton className="h-12 w-full" />
-            <Skeleton className="h-12 w-full" />
-            <Skeleton className="h-12 w-full" />
+          <div className="space-y-4 p-6">
+            <Skeleton className="h-12 w-full rounded-xl" />
+            <Skeleton className="h-12 w-full rounded-xl" />
+            <Skeleton className="h-12 w-full rounded-xl" />
           </div>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full table-auto text-left">
               <thead>
-                <tr className="bg-slate-100">
-                  <th className="px-6 py-4 text-sm font-semibold text-slate-700">Campaign</th>
-                  <th className="px-6 py-4 text-sm font-semibold text-slate-700">Avg Customer LTV</th>
-                  <th className="px-6 py-4 text-sm font-semibold text-slate-700">Ad Spend</th>
-                  <th className="px-6 py-4 text-sm font-semibold text-slate-700">ROAS</th>
+                <tr className="border-b border-zinc-100">
+                  <th className="px-6 py-4"><span className="eyebrow text-zinc-400">Campaign</span></th>
+                  <th className="px-6 py-4"><span className="eyebrow text-zinc-400">Avg Customer LTV</span></th>
+                  <th className="px-6 py-4"><span className="eyebrow text-zinc-400">Ad Spend</span></th>
+                  <th className="px-6 py-4"><span className="eyebrow text-zinc-400">ROAS</span></th>
                 </tr>
               </thead>
               <tbody>
-                {data.map((item, i) => (
-                  <tr key={i} className={i % 2 === 0 ? "bg-white" : "bg-slate-50"}>
-                    <td className="px-6 py-4 font-medium">{item.campaign_name}</td>
-                    <td className="px-6 py-4">${item.average_customer_ltv.toFixed(2)}</td>
-                    <td className="px-6 py-4">${item.spend.toFixed(2)}</td>
-                    <td className="px-6 py-4">
-                      <div className="flex items-center">
-                        <span className="font-bold mr-2">{item.ROAS.toFixed(1)}x</span>
-                        <Badge variant="outline" className={badgeStyles[getRoasBadgeVariant(item.ROAS)]}>
-                          {item.ROAS >= 4 ? 'Excellent' : item.ROAS >= 2 ? 'Good' : 'Poor'}
-                        </Badge>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
+                {data.map((item, i) => {
+                  const tier = getRoasTier(item.ROAS);
+                  return (
+                    <tr key={i} className="border-b border-zinc-50 transition-colors hover:bg-zinc-50">
+                      <td className="px-6 py-4 text-sm font-medium text-zinc-900">{item.campaign_name}</td>
+                      <td className="px-6 py-4 text-sm font-light text-zinc-600">${item.average_customer_ltv.toFixed(2)}</td>
+                      <td className="px-6 py-4 text-sm font-light text-zinc-600">${item.spend.toFixed(2)}</td>
+                      <td className="px-6 py-4">
+                        <div className="flex items-center gap-3">
+                          <span className="text-base font-medium tracking-tightest text-zinc-900">{item.ROAS.toFixed(1)}x</span>
+                          <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${tier.style}`}>
+                            {tier.label}
+                          </span>
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>
         )}
       </CardContent>
+      <CardFooter className="border-t border-zinc-100 bg-zinc-50/60 px-6 py-4 text-xs font-light text-zinc-400">
+        Lifetime value / ad spend, measured across active campaigns
+      </CardFooter>
     </Card>
   );
 }

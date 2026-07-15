@@ -4,13 +4,22 @@ module.exports = {
     content: [
     "./pages/**/*.{js,ts,jsx,tsx}",
     "./components/**/*.{js,ts,jsx,tsx}",
+    "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
   	extend: {
+  		fontFamily: {
+  			sans: ['var(--font-inter)', 'Inter', 'ui-sans-serif', 'system-ui', 'sans-serif']
+  		},
+  		letterSpacing: {
+  			tightest: '-0.05em'
+  		},
   		borderRadius: {
   			lg: 'var(--radius)',
   			md: 'calc(var(--radius) - 2px)',
-  			sm: 'calc(var(--radius) - 4px)'
+  			sm: 'calc(var(--radius) - 4px)',
+  			'4xl': '2rem',
+  			'5xl': '2.5rem'
   		},
   		colors: {
   			background: 'hsl(var(--background))',
@@ -53,6 +62,20 @@ module.exports = {
   				'4': 'hsl(var(--chart-4))',
   				'5': 'hsl(var(--chart-5))'
   			}
+  		},
+  		keyframes: {
+  			'fade-in-up': {
+  				'0%': { opacity: '0', transform: 'translateY(20px)' },
+  				'100%': { opacity: '1', transform: 'translateY(0)' }
+  			},
+  			'bounce-tag': {
+  				'0%, 100%': { transform: 'translateY(0)' },
+  				'50%': { transform: 'translateY(-6px)' }
+  			}
+  		},
+  		animation: {
+  			'fade-in-up': 'fade-in-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) both',
+  			'bounce-tag': 'bounce-tag 2s ease-in-out infinite'
   		}
   	}
   },

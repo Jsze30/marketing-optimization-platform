@@ -8,11 +8,10 @@ import {
   Tooltip,
   ResponsiveContainer,
   CartesianGrid,
-  Legend,
 } from "recharts";
+import { BarChart3, Lightbulb } from "lucide-react";
 import { fetchMetaInsights, fetchMetaRecommendations } from "../utils/api";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 
 export default function MetaInsights() {
@@ -34,115 +33,104 @@ export default function MetaInsights() {
         setIsLoading(false);
       }
     };
-    
+
     fetchData();
   }, []);
-  
+
   const formatCurrency = (value) => {
-    return new Intl.NumberFormat('en-US', { 
-      style: 'currency', 
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
       currency: 'USD',
       minimumFractionDigits: 0,
       maximumFractionDigits: 0
     }).format(value);
   };
-  
+
   return (
-    <Card className="shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden">
-      <CardHeader className="bg-gradient-to-r from-blue-600 to-indigo-700 text-white">
-        <div className="flex items-center justify-between">
-          <CardTitle className="text-2xl font-bold flex items-center">
-            <span className="mr-2">📈</span>Meta Ads Performance
-          </CardTitle>
-          <Badge variant="outline" className="bg-white/20 text-white border-white/30">
-            Campaign Analysis
-          </Badge>
+    <Card className="group animate-fade-in-up overflow-hidden rounded-[1.5rem] border-zinc-200 bg-white transition-all duration-300 hover:shadow-xl">
+      <CardHeader className="border-b border-zinc-100 p-6">
+        <div className="flex items-start justify-between gap-4">
+          <div>
+            <div className="eyebrow text-emerald-500">Meta Ads</div>
+            <CardTitle className="mt-2 text-2xl font-medium tracking-tightest text-zinc-900">
+              Meta Ads Performance
+            </CardTitle>
+            <CardDescription className="mt-1 font-light text-zinc-500">
+              Revenue performance of active Meta advertising campaigns
+            </CardDescription>
+          </div>
+          <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-zinc-900 text-white">
+            <BarChart3 className="h-5 w-5" />
+          </span>
         </div>
-        <CardDescription className="text-blue-100 mt-1">
-          Revenue performance of active Meta advertising campaigns
-        </CardDescription>
       </CardHeader>
-      
-      <CardContent className="pt-6">
+
+      <CardContent className="p-6">
         {isLoading ? (
           <div className="space-y-3">
-            <Skeleton className="h-[300px] w-full rounded-lg" />
-            <Skeleton className="h-4 w-3/4 mt-4" />
+            <Skeleton className="h-[300px] w-full rounded-2xl" />
+            <Skeleton className="h-4 w-3/4" />
             <Skeleton className="h-4 w-1/2" />
           </div>
         ) : (
           <>
-            <div className="rounded-md bg-white p-4 border border-indigo-100 shadow-sm">
+            <div className="rounded-2xl border border-zinc-100 bg-zinc-50 p-4">
               <ResponsiveContainer width="100%" height={300}>
-                <BarChart 
+                <BarChart
                   data={insights}
                   margin={{ top: 10, right: 10, left: 10, bottom: 10 }}
                 >
-                  <XAxis 
-                    dataKey="campaign_name" 
+                  <defs>
+                    <linearGradient id="metaRevenue" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor="#34D399" stopOpacity={0.95} />
+                      <stop offset="95%" stopColor="#10b981" stopOpacity={0.85} />
+                    </linearGradient>
+                  </defs>
+                  <XAxis
+                    dataKey="campaign_name"
                     tickLine={false}
                     axisLine={false}
-                    tick={{ fontSize: 12 }}
+                    tick={{ fontSize: 12, fill: '#a1a1aa' }}
                   />
-                  <YAxis 
+                  <YAxis
                     tickLine={false}
                     axisLine={false}
-                    tick={{ fontSize: 12 }}
+                    tick={{ fontSize: 12, fill: '#a1a1aa' }}
                     width={60}
                     tickFormatter={value => formatCurrency(value)}
                   />
-                  <Tooltip 
-                    cursor={{ fill: 'rgba(79, 70, 229, 0.1)' }}
-                    formatter={(value) => [formatCurrency(value), "Revenue"]} 
-                    contentStyle={{ 
-                      borderRadius: '8px',
-                      border: '1px solid #e2e8f0',
-                      boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)'
+                  <Tooltip
+                    cursor={{ fill: 'rgba(52, 211, 153, 0.08)' }}
+                    formatter={(value) => [formatCurrency(value), "Revenue"]}
+                    contentStyle={{
+                      borderRadius: '12px',
+                      border: '1px solid #e4e4e7',
+                      boxShadow: '0 8px 24px rgba(0, 0, 0, 0.08)',
+                      fontSize: '13px'
                     }}
                   />
-                  <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
-                  <Legend 
-                    verticalAlign="top" 
-                    height={36} 
-                    content={({ payload }) => (
-                      <div className="flex justify-center">
-                        {payload.map((entry, index) => (
-                          <div key={`legend-${index}`} className="flex items-center mx-2">
-                            <div className="w-3 h-3 rounded-full mr-1" style={{ backgroundColor: entry.color }} />
-                            <span className="text-sm font-medium">{entry.value}</span>
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                  />
-                  <Bar 
-                    dataKey="revenue" 
-                    name="Revenue" 
-                    fill="url(#colorRevenue)" 
-                    radius={[4, 4, 0, 0]}
+                  <CartesianGrid strokeDasharray="3 3" stroke="#e4e4e7" vertical={false} />
+                  <Bar
+                    dataKey="revenue"
+                    name="Revenue"
+                    fill="url(#metaRevenue)"
+                    radius={[6, 6, 0, 0]}
                     barSize={40}
-                  >
-                    <defs>
-                      <linearGradient id="colorRevenue" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="5%" stopColor="#4f46e5" stopOpacity={0.95}/>
-                        <stop offset="95%" stopColor="#818cf8" stopOpacity={0.8}/>
-                      </linearGradient>
-                    </defs>
-                  </Bar>
+                  />
                 </BarChart>
               </ResponsiveContainer>
             </div>
 
-            <div className="mt-6 space-y-3">
-              <h3 className="text-lg font-medium mb-3 flex items-center text-indigo-900">
-                <span className="mr-2">💡</span>
-                <span>Action Recommendations</span>
+            <div className="mt-6">
+              <h3 className="mb-3 flex items-center gap-2 text-sm font-medium text-zinc-900">
+                <Lightbulb className="h-4 w-4 text-emerald-500" />
+                Action Recommendations
               </h3>
-              <div className="grid grid-cols-1 gap-3">
+              <div className="grid grid-cols-1 gap-2.5">
                 {recommendations.map((r, i) => (
-                  <div 
-                    key={i} 
-                    className="bg-indigo-50 rounded-lg p-4 border-l-4 border-indigo-500 text-sm text-indigo-800 hover:shadow-md transition-shadow duration-300"
+                  <div
+                    key={i}
+                    className="rounded-xl border border-zinc-100 border-l-2 border-l-emerald-400 bg-zinc-50 p-4 text-sm font-light text-zinc-600 transition-colors duration-300 hover:bg-zinc-100"
                   >
                     {r}
                   </div>
@@ -152,8 +140,8 @@ export default function MetaInsights() {
           </>
         )}
       </CardContent>
-      <CardFooter className="bg-indigo-50 border-t border-indigo-100 text-xs text-indigo-600">
-        <p>Based on last 30 days of campaign data</p>
+      <CardFooter className="border-t border-zinc-100 bg-zinc-50/60 px-6 py-4 text-xs font-light text-zinc-400">
+        Based on last 30 days of campaign data
       </CardFooter>
     </Card>
   );

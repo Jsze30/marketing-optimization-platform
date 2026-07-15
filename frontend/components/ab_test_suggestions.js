@@ -1,8 +1,9 @@
 'use client';
 import { useEffect, useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
+import { FlaskConical, Megaphone, Info } from "lucide-react";
 import axios from "axios";
 import { API_BASE } from "../utils/api";
 
@@ -24,61 +25,59 @@ export default function ABTestSuggestions() {
   }, []);
 
   return (
-    <Card className="shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden">
-      <CardHeader className="bg-gradient-to-r from-violet-600 to-purple-700 text-white">
-        <div className="flex justify-between items-center">
-          <CardTitle className="text-2xl font-bold flex items-center">
-            <span className="mr-2">🧪</span>A/B Test Suggestions
-          </CardTitle>
-          <Badge variant="outline" className="bg-white/20 text-white border-white/30">
-            Performance Optimizer
-          </Badge>
+    <Card className="group animate-fade-in-up overflow-hidden rounded-[1.5rem] border-zinc-200 bg-white transition-all duration-300 hover:shadow-xl">
+      <CardHeader className="border-b border-zinc-100 p-6">
+        <div className="flex items-start justify-between gap-4">
+          <div>
+            <div className="eyebrow text-emerald-500">Experiments</div>
+            <CardTitle className="mt-2 text-2xl font-medium tracking-tightest text-zinc-900">
+              A/B Test Suggestions
+            </CardTitle>
+            <CardDescription className="mt-1 font-light text-zinc-500">
+              Data-driven test ideas to boost campaign performance
+            </CardDescription>
+          </div>
+          <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-zinc-900 text-white">
+            <FlaskConical className="h-5 w-5" />
+          </span>
         </div>
-        <CardDescription className="text-violet-100 mt-1">
-          Data-driven test ideas to boost campaign performance
-        </CardDescription>
       </CardHeader>
-      
-      <CardContent className="pt-6">
+
+      <CardContent className="p-6">
         {isLoading ? (
           <div className="space-y-4">
-            <Skeleton className="h-20 w-full rounded-lg" />
-            <Skeleton className="h-20 w-full rounded-lg" />
-            <Skeleton className="h-20 w-full rounded-lg" />
+            <Skeleton className="h-24 w-full rounded-2xl" />
+            <Skeleton className="h-24 w-full rounded-2xl" />
+            <Skeleton className="h-24 w-full rounded-2xl" />
           </div>
         ) : (
           <div className="space-y-4">
             {suggestions.length === 0 ? (
-              <div className="bg-violet-50 rounded-lg p-6 text-center">
-                <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-violet-100 text-violet-600 mb-3">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <circle cx="12" cy="12" r="10"></circle>
-                    <line x1="12" y1="8" x2="12" y2="12"></line>
-                    <line x1="12" y1="16" x2="12.01" y2="16"></line>
-                  </svg>
+              <div className="rounded-2xl border border-zinc-100 bg-zinc-50 p-8 text-center">
+                <div className="mx-auto mb-3 inline-flex h-12 w-12 items-center justify-center rounded-full bg-zinc-900 text-white">
+                  <Info className="h-5 w-5" />
                 </div>
-                <p className="text-violet-700 font-medium">No test suggestions available at this time.</p>
-                <p className="text-violet-500 text-sm mt-1">Check back later as more campaign data is collected.</p>
+                <p className="font-medium text-zinc-900">No test suggestions available at this time.</p>
+                <p className="mt-1 text-sm font-light text-zinc-500">Check back later as more campaign data is collected.</p>
               </div>
             ) : (
               suggestions.map((item, i) => (
-                <div key={i} className="bg-gradient-to-b from-violet-50 to-white rounded-lg border border-violet-100 overflow-hidden">
-                  <div className="bg-violet-100/70 px-4 py-3 border-b border-violet-200">
-                    <div className="flex justify-between items-center">
-                      <h3 className="font-semibold text-violet-800 flex items-center">
-                        <span className="mr-2">📣</span> {item.campaign_name}
-                      </h3>
-                      <Badge className="bg-violet-200 text-violet-800 hover:bg-violet-300">
-                        Test Opportunity
-                      </Badge>
-                    </div>
+                <div key={i} className="overflow-hidden rounded-2xl border border-zinc-100 bg-zinc-50">
+                  <div className="flex items-center justify-between border-b border-zinc-100 bg-white px-4 py-3">
+                    <h3 className="flex items-center gap-2 text-sm font-medium text-zinc-900">
+                      <Megaphone className="h-4 w-4 text-emerald-500" />
+                      {item.campaign_name}
+                    </h3>
+                    <Badge className="border-transparent bg-emerald-400/15 text-emerald-600 hover:bg-emerald-400/25">
+                      Test Opportunity
+                    </Badge>
                   </div>
                   <div className="p-4">
                     <ul className="space-y-2">
                       {item.suggestions.map((suggestion, j) => (
-                        <li key={j} className="flex items-start">
-                          <div className="text-violet-600 mr-2 mt-0.5">•</div>
-                          <span className="text-sm text-slate-800">{suggestion}</span>
+                        <li key={j} className="flex items-start gap-2.5">
+                          <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-400" />
+                          <span className="text-sm font-light text-zinc-600">{suggestion}</span>
                         </li>
                       ))}
                     </ul>
@@ -89,6 +88,9 @@ export default function ABTestSuggestions() {
           </div>
         )}
       </CardContent>
+      <CardFooter className="border-t border-zinc-100 bg-zinc-50/60 px-6 py-4 text-xs font-light text-zinc-400">
+        Generated from campaign creative and performance signals
+      </CardFooter>
     </Card>
   );
 }
